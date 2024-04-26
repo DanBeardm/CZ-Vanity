@@ -20,6 +20,7 @@ public class Vanity {
         ModBlocks.BLOCKS.init();
         ModBlocks.BLOCK_ENTITIES.init();
 
+        ModDataComponents.TYPES.init();
         ModItems.ITEMS.init();
         ModMenuTypes.MENUS.init();
         ModSounds.SOUNDS.init();

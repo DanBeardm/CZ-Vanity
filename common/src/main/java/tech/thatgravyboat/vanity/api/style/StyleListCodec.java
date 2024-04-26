@@ -56,8 +56,8 @@ public class StyleListCodec implements Codec<List<Style>> {
 
     private <T> boolean skip(final DynamicOps<T> ops, final T input) {
         final Optional<T> key = ops.get(input, KEY).result();
-        return key.filter(t -> !Conditions.CODEC.parse(ops, t)
-                .getOrThrow(false, System.err::println)
-                .test()).isPresent();
+        return key.filter(
+            t -> !Conditions.CODEC.parse(ops, t).getOrThrow(IllegalArgumentException::new).test()
+        ).isPresent();
     }
 }

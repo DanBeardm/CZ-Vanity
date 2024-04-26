@@ -12,11 +12,13 @@ import net.minecraft.world.entity.npc.VillagerTrades;
 import net.minecraft.world.item.trading.MerchantOffer;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Optional;
+
 public record VillagerTrade(
         int tier,
         String group,
         TradeStack first,
-        TradeStack second,
+        Optional<TradeStack> second,
         TradeStack result,
         IntProvider maxUses,
         IntProvider xp,
@@ -29,7 +31,7 @@ public record VillagerTrade(
             Codec.INT.optionalFieldOf("tier", 1).forGetter(VillagerTrade::tier),
             Codec.STRING.optionalFieldOf("group", VANILLA).forGetter(VillagerTrade::group),
             TradeStack.CODEC.fieldOf("first").forGetter(VillagerTrade::first),
-            TradeStack.CODEC.optionalFieldOf("second", TradeStack.EMPTY).forGetter(VillagerTrade::second),
+            TradeStack.CODEC.optionalFieldOf("second").forGetter(VillagerTrade::second),
             TradeStack.CODEC.fieldOf("result").forGetter(VillagerTrade::result),
             IntProvider.POSITIVE_CODEC.fieldOf("maxUses").forGetter(VillagerTrade::maxUses),
             IntProvider.POSITIVE_CODEC.optionalFieldOf("xp", ConstantInt.of(1)).forGetter(VillagerTrade::xp),
@@ -46,9 +48,9 @@ public record VillagerTrade(
             int xp = this.xp.sample(random);
             float priceMultiplier = this.priceMultiplier.sample(random);
             return new MerchantOffer(
-                    this.first.create(random),
-                    this.second.create(random),
-                    this.result.create(random),
+                    this.first.asCost(random),
+                    this.second.map(stack -> stack.asCost(random)),
+                    this.result.asStack(random),
                     maxUses,
                     xp,
                     priceMultiplier

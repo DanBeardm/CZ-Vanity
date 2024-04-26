@@ -3,7 +3,7 @@ package tech.thatgravyboat.vanity.mixins.client.armor;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
-import net.minecraft.client.renderer.entity.layers.HorseArmorLayer;
+import net.minecraft.client.renderer.entity.layers.WolfArmorLayer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.AnimalArmorItem;
 import net.minecraft.world.item.ItemStack;
@@ -14,11 +14,11 @@ import tech.thatgravyboat.vanity.client.design.ClientDesignManager;
 
 import java.util.Objects;
 
-@Mixin(HorseArmorLayer.class)
-public class HorseArmorLayerMixin {
+@Mixin(WolfArmorLayer.class)
+public class WolfArmorLayerMixin {
 
     @WrapOperation(
-        method = "render(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;ILnet/minecraft/world/entity/animal/horse/Horse;FFFFFF)V",
+        method = "render(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;ILnet/minecraft/world/entity/animal/Wolf;FFFFFF)V",
         at = @At(
             value = "INVOKE",
             target = "Lnet/minecraft/world/item/AnimalArmorItem;getTexture()Lnet/minecraft/resources/ResourceLocation;"

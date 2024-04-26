@@ -1,5 +1,6 @@
 package tech.thatgravyboat.vanity.common.registries;
 
+import com.mojang.datafixers.util.Pair;
 import com.teamresourceful.resourcefullib.common.collections.WeightedCollection;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
@@ -7,9 +8,10 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.entity.npc.VillagerTrades;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.trading.ItemCost;
 import net.minecraft.world.item.trading.MerchantOffer;
+import tech.thatgravyboat.vanity.api.design.Design;
 import tech.thatgravyboat.vanity.common.handler.design.ServerDesignManager;
 import tech.thatgravyboat.vanity.common.handler.trades.VillagerTrade;
 import tech.thatgravyboat.vanity.common.handler.trades.VillagerTradeManager;
@@ -27,10 +29,10 @@ public class ModTrades {
     public static void registerTrades(VillagerProfession profession, int maxTier, int minTier, BiConsumer<Integer, VillagerTrades.ItemListing> adder) {
         if (profession != ModProfessions.STYLIST.get()) return;
 
-        List<ResourceLocation> designs = new ArrayList<>();
+        List<Pair<ResourceLocation, Design>> designs = new ArrayList<>();
         for (var entry : ServerDesignManager.INSTANCE.getAllDesigns().entrySet()) {
             if (!entry.getValue().canBeSold()) continue;
-            designs.add(entry.getKey());
+            designs.add(Pair.of(entry.getKey(), entry.getValue()));
         }
 
         int basicTrades = Math.min(maxTier, designs.size() + 1);
@@ -57,7 +59,7 @@ public class ModTrades {
         }
     }
 
-    private record DesignListing(List<ResourceLocation> designs, int offset) implements VillagerTrades.ItemListing {
+    private record DesignListing(List<Pair<ResourceLocation, Design>> designs, int offset) implements VillagerTrades.ItemListing {
 
         private static final int USES = 4;
         private static final int EMERALD_COST = 15;
@@ -66,10 +68,10 @@ public class ModTrades {
 
         @Override
         public MerchantOffer getOffer(Entity entity, RandomSource random) {
-            ItemStack emeralds = new ItemStack(Items.EMERALD, EMERALD_COST + (random.nextInt(16)));
+            ItemCost emeralds = new ItemCost(Items.EMERALD, EMERALD_COST + (random.nextInt(16)));
             int index = Mth.abs(entity.getUUID().hashCode() + this.offset) % this.designs.size();
-            ResourceLocation design = this.designs.get(Mth.clamp(index, 0, this.designs.size() - 1));
-            return new MerchantOffer(emeralds, DesignHelper.createDesignItem(design), USES, XP_GAIN, PRICE_MULTIPLIER);
+            var design = this.designs.get(Mth.clamp(index, 0, this.designs.size() - 1));
+            return new MerchantOffer(emeralds, DesignHelper.createDesignItem(design.getFirst(), design.getSecond()), USES, XP_GAIN, PRICE_MULTIPLIER);
         }
     }
 }

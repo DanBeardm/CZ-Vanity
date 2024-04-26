@@ -131,6 +131,9 @@
             "pattern": "^[a-z0-9_.-]+:[a-z0-9/._-]+$",
             "description": "The model of the design itself."
         },
+        "item": {
+            "$ref": "#/definitions/resourceLocation"
+        },
         "type": {
             "$ref": "#/definitions/designType"
         },

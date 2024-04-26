@@ -5,6 +5,7 @@ import com.teamresourceful.resourcefullib.common.network.base.ClientboundPacketT
 import com.teamresourceful.resourcefullib.common.network.base.PacketType;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import tech.thatgravyboat.vanity.api.design.Design;
 import tech.thatgravyboat.vanity.client.VanityClientNetwork;
@@ -41,7 +42,7 @@ public record ClientboundSyncDesignsPacket(Map<ResourceLocation, Design> designs
         }
 
         @Override
-        public void encode(ClientboundSyncDesignsPacket message, FriendlyByteBuf buffer) {
+        public void encode(ClientboundSyncDesignsPacket message, RegistryFriendlyByteBuf buffer) {
             buffer.writeMap(
                 message.designs,
                 FriendlyByteBuf::writeResourceLocation,
@@ -50,7 +51,7 @@ public record ClientboundSyncDesignsPacket(Map<ResourceLocation, Design> designs
         }
 
         @Override
-        public ClientboundSyncDesignsPacket decode(FriendlyByteBuf buffer) {
+        public ClientboundSyncDesignsPacket decode(RegistryFriendlyByteBuf buffer) {
             return new ClientboundSyncDesignsPacket(
                 buffer.readMap(
                     FriendlyByteBuf::readResourceLocation,

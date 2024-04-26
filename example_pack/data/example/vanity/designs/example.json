@@ -1,6 +1,7 @@
 {
     "model": "example:design",
     "type": "item",
+    "item": "minecraft:diamond",
     "styles": {
         "default": [
             {

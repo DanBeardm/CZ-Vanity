@@ -15,8 +15,6 @@ import tech.thatgravyboat.vanity.api.design.DesignManager;
 import tech.thatgravyboat.vanity.common.Vanity;
 import tech.thatgravyboat.vanity.common.item.DesignHelper;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.function.BiConsumer;
 
 public class ModCreativeModeTabs {
@@ -29,13 +27,11 @@ public class ModCreativeModeTabs {
                     .setItemIcon(ModBlocks.STYLING_TABLE)
                     .addContent(() -> {
                         DesignManager manager = DesignManager.get(true);
-                        List<ResourceLocation> designs = new ArrayList<>();
-                        for (var entry : manager.getAllDesigns().entrySet()) {
-                            if (entry.getValue().type().hideFromCreativeTab()) continue;
-                            designs.add(entry.getKey());
-                        }
-
-                        return designs.stream().map(DesignHelper::createDesignItem);
+                        return manager.getAllDesigns()
+                                .entrySet()
+                                .stream()
+                                .filter(entry -> !entry.getValue().type().hideFromCreativeTab())
+                                .map(entry -> DesignHelper.createDesignItem(entry.getKey(), entry.getValue()));
                     }).build()
     );
 

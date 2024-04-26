@@ -5,21 +5,21 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
+import software.bernie.geckolib.animatable.GeoAnimatable;
 import software.bernie.geckolib.animatable.SingletonGeoAnimatable;
+import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
+import software.bernie.geckolib.animatable.instance.SingletonAnimatableInstanceCache;
+import software.bernie.geckolib.animation.AnimatableManager;
+import software.bernie.geckolib.animation.AnimationController;
+import software.bernie.geckolib.animation.PlayState;
 import software.bernie.geckolib.constant.DefaultAnimations;
-import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.core.animatable.instance.SingletonAnimatableInstanceCache;
-import software.bernie.geckolib.core.animation.AnimatableManager;
-import software.bernie.geckolib.core.animation.AnimationController;
-import software.bernie.geckolib.core.object.PlayState;
 import software.bernie.geckolib.model.DefaultedItemGeoModel;
-import software.bernie.geckolib.util.RenderUtils;
+import software.bernie.geckolib.util.RenderUtil;
 import tech.thatgravyboat.vanity.api.style.AssetTypes;
 import tech.thatgravyboat.vanity.client.design.ClientDesignManager;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 public final class StyledArmorGeoAnimatable implements SingletonGeoAnimatable {
@@ -46,7 +46,7 @@ public final class StyledArmorGeoAnimatable implements SingletonGeoAnimatable {
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, 20, (state) -> {
+        controllers.add(new AnimationController<GeoAnimatable>(this, 20, (state) -> {
             state.getController().setAnimation(DefaultAnimations.IDLE);
             return PlayState.CONTINUE;
         }));
@@ -59,11 +59,7 @@ public final class StyledArmorGeoAnimatable implements SingletonGeoAnimatable {
 
     @Override
     public double getTick(Object o) {
-        return RenderUtils.getCurrentTick();
-    }
-
-    @Override
-    public void createRenderer(Consumer<Object> consumer) {
+        return RenderUtil.getCurrentTick();
     }
 
     @Override

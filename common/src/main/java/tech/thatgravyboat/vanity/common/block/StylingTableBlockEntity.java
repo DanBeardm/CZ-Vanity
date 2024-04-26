@@ -1,6 +1,7 @@
 package tech.thatgravyboat.vanity.common.block;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.Container;
@@ -34,16 +35,14 @@ public class StylingTableBlockEntity extends BlockEntity implements StylingConta
     }
 
     @Override
-    public void load(@NotNull CompoundTag tag) {
-        super.load(tag);
+    protected void loadAdditional(CompoundTag tag, HolderLookup.Provider provider) {
         this.items = NonNullList.withSize(Math.max(this.getContainerSize(), SIZE), ItemStack.EMPTY);
-        ContainerHelper.loadAllItems(tag, this.items);
+        ContainerHelper.loadAllItems(tag, this.items, provider);
     }
 
     @Override
-    protected void saveAdditional(@NotNull CompoundTag tag) {
-        super.saveAdditional(tag);
-        ContainerHelper.saveAllItems(tag, this.items);
+    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider provider) {
+        ContainerHelper.saveAllItems(tag, this.items, provider);
     }
 
     @Override

@@ -23,13 +23,13 @@ license = "MIT"
 [[dependencies.vanity]]
     modId = "neoforge"
     type="required"
-    versionRange = "[20.4,)"
+    versionRange = "[20.5,)"
     ordering = "AFTER"
     side = "BOTH"
 
 [[dependencies.vanity]]
     modId = "minecraft"
     type="required"
-    versionRange = "[1.20.4,)"
+    versionRange = "[1.20.5,)"
     ordering = "AFTER"
     side = "BOTH"

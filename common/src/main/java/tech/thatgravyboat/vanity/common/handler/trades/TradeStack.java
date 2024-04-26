@@ -10,6 +10,7 @@ import net.minecraft.util.valueproviders.IntProvider;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.trading.ItemCost;
 
 public record TradeStack(Item item, IntProvider count) {
 
@@ -27,10 +28,17 @@ public record TradeStack(Item item, IntProvider count) {
         this(item, ConstantInt.of(1));
     }
 
-    public ItemStack create(RandomSource random) {
+    public ItemStack asStack(RandomSource random) {
         if (this.item == Items.AIR) {
             return ItemStack.EMPTY;
         }
         return new ItemStack(this.item, this.count.sample(random));
+    }
+
+    public ItemCost asCost(RandomSource random) {
+        if (this.item == Items.AIR) {
+            return new ItemCost(Items.AIR);
+        }
+        return new ItemCost(this.item, this.count.sample(random));
     }
 }

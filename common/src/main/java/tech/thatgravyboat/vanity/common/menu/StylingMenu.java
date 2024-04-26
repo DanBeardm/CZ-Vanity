@@ -1,5 +1,6 @@
 package tech.thatgravyboat.vanity.common.menu;
 
+import com.mojang.datafixers.util.Pair;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.Container;
@@ -103,10 +104,9 @@ public class StylingMenu extends BaseContainerMenu {
 
         ItemStack input = this.input.getItem(0);
         if (!input.isEmpty()) {
-            ResourceLocation inputDesign = DesignHelper.getDesign(input);
-            String inputStyle = DesignHelper.getStyle(input);
+            Pair<ResourceLocation, String> inputStyle = DesignHelper.getStyle(input);
 
-            if (inputDesign != null) {
+            if (inputStyle != null) {
                 this.styles.put(REMOVE_DESIGN, List.of(""));
             }
 
@@ -115,12 +115,12 @@ public class StylingMenu extends BaseContainerMenu {
                 .ifPresent(styles -> this.styles.put(id, new ArrayList<>(styles)))
             );
 
-            if (inputDesign != null && this.styles.containsKey(inputDesign)) {
-                this.styles.get(inputDesign).remove(inputStyle);
+            if (inputStyle != null && this.styles.containsKey(inputStyle.getFirst())) {
+                this.styles.get(inputStyle.getFirst()).remove(inputStyle.getSecond());
             }
         }
 
-        if (previous != this.styles.hashCode() || !ItemStack.isSameItemSameTags(lastInput, this.input.getItem(0))) {
+        if (previous != this.styles.hashCode() || !ItemStack.isSameItemSameComponents(lastInput, this.input.getItem(0))) {
             this.result.setItem(0, ItemStack.EMPTY);
         }
     }

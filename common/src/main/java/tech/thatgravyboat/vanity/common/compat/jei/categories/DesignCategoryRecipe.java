@@ -10,6 +10,7 @@ import java.util.stream.Stream;
 
 public record DesignCategoryRecipe(
     ResourceLocation id,
+    Design design,
     String styleId,
     Style style,
     boolean alwaysAvailable
@@ -23,7 +24,7 @@ public record DesignCategoryRecipe(
         return design.styles().entrySet().stream().flatMap(value -> {
             String styleId = value.getKey();
             Collection<Style> styles = value.getValue();
-            return styles.stream().map(style -> new DesignCategoryRecipe(id, styleId, style, design.type().isDefault()));
+            return styles.stream().map(style -> new DesignCategoryRecipe(id, design, styleId, style, design.type().isDefault()));
         });
     }
 }

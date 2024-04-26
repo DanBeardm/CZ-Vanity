@@ -17,6 +17,7 @@
         "client.armor.ElytraLayerMixin",
         "client.armor.HorseArmorLayerMixin",
         "client.armor.LevelRenderAccessor",
+        "client.armor.WolfArmorLayerMixin",
         "client.fixes.ArrowRendererMixin",
         "client.fixes.ThrownTridentRendererMixin",
         "client.rendering.GuiGraphicsMixin",

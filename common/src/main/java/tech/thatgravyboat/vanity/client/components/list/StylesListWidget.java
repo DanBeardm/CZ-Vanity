@@ -2,6 +2,7 @@ package tech.thatgravyboat.vanity.client.components.list;
 
 import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.datafixers.util.Pair;
+import net.minecraft.Optionull;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.Renderable;
@@ -39,7 +40,7 @@ public class StylesListWidget extends BaseParentWidget {
     }
 
     public void addAll(Map<ResourceLocation, List<String>> designs, ItemStack input) {
-        if (designs.hashCode() == this.oldHash && ItemStack.isSameItemSameTags(input, this.oldStack)) return;
+        if (designs.hashCode() == this.oldHash && ItemStack.isSameItemSameComponents(input, this.oldStack)) return;
         this.oldStack = input;
         this.scroll = 0;
         this.oldHash = designs.hashCode();
@@ -53,11 +54,12 @@ public class StylesListWidget extends BaseParentWidget {
     }
 
     public void select(ItemStack stack) {
-        ResourceLocation design = DesignHelper.getDesign(stack);
-        String style = DesignHelper.getStyle(stack);
+        var style = DesignHelper.getStyle(stack);
         for (AbstractWidget child : this.children) {
             if (child instanceof StyleButton styleButton) {
-                styleButton.select(design, style, stack.isEmpty());
+                ResourceLocation design = Optionull.map(style, Pair::getFirst);
+                String styleName = Optionull.map(style, Pair::getSecond);
+                styleButton.select(design, styleName, stack.isEmpty());
             }
         }
     }

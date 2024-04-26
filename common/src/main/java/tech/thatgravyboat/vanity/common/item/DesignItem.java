@@ -1,6 +1,5 @@
 package tech.thatgravyboat.vanity.common.item;
 
-import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
@@ -44,14 +43,5 @@ public class DesignItem extends Item {
             return InteractionResultHolder.fail(stack);
         }
         return InteractionResultHolder.pass(player.getItemInHand(hand));
-    }
-
-    @Override
-    public @NotNull Component getName(@NotNull ItemStack stack) {
-        ResourceLocation design = DesignHelper.getDesign(stack);
-        if (design != null) {
-            return DesignHelper.getTranslationKey(design, null);
-        }
-        return super.getName(stack);
     }
 }

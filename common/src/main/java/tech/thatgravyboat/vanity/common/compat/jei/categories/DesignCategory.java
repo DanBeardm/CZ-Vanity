@@ -85,7 +85,7 @@ public class DesignCategory implements IRecipeCategory<DesignCategoryRecipe> {
         Registry<Item> registry = access.registry(Registries.ITEM).orElse(null);
         if (registry == null) return;
 
-        ItemStack designItem = DesignHelper.createDesignItem(recipe.id());
+        ItemStack designItem = DesignHelper.createDesignItem(recipe.id(), recipe.design());
 
         builder.addSlot(RecipeIngredientRole.INPUT, 6, 6)
                 .setSlotName("design")

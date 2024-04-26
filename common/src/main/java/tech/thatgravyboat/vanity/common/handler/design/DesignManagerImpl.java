@@ -1,14 +1,17 @@
 package tech.thatgravyboat.vanity.common.handler.design;
 
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
+import org.jetbrains.annotations.Nullable;
 import tech.thatgravyboat.vanity.api.design.Design;
 import tech.thatgravyboat.vanity.api.design.DesignManager;
 import tech.thatgravyboat.vanity.api.style.Style;
 import tech.thatgravyboat.vanity.common.item.DesignHelper;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.ItemStack;
-import org.jetbrains.annotations.Nullable;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 
 public abstract class DesignManagerImpl implements DesignManager {
 
@@ -53,15 +56,13 @@ public abstract class DesignManagerImpl implements DesignManager {
     @Override
     @Nullable
     public Style getStyleFromItem(ItemStack stack) {
-        String style = DesignHelper.getStyle(stack);
+        var style = DesignHelper.getStyle(stack);
         if (style == null)
             return null;
 
-        Design design = this.getDesignFromItem(stack);
-        if (design == null)
-            return null;
-
-        return design.getStyleForItem(style, stack);
+        return this.getDesign(style.getFirst())
+                .map(design -> design.getStyleForItem(style.getSecond(), stack))
+                .orElse(null);
     }
 
     public boolean hasStyle(ItemStack stack) {

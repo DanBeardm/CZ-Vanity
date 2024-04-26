@@ -35,7 +35,7 @@ public class VillagerTradeManager extends SimpleJsonResourceReloadListener {
         TRADES.clear();
         for (Map.Entry<ResourceLocation, JsonElement> entry : objects.entrySet()) {
             try {
-                VillagerTrade trade = VillagerTrade.CODEC.parse(JsonOps.INSTANCE, entry.getValue()).getOrThrow(false, LOGGER::error);
+                VillagerTrade trade = VillagerTrade.CODEC.parse(JsonOps.INSTANCE, entry.getValue()).getOrThrow();
                 TRADES.computeIfAbsent(trade.tier(), integer -> new ArrayList<>()).add(trade);
             } catch (Exception e) {
                 LOGGER.error("Failed to load trade: " + entry.getKey(), e);

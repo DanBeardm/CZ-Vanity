@@ -1,12 +1,12 @@
 package tech.thatgravyboat.vanity.api.condtional.conditions;
 
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import tech.thatgravyboat.vanity.api.condtional.Conditions;
 
 public record NotCondition(Condition condition) implements Condition {
 
-    public static final Codec<NotCondition> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+    public static final MapCodec<NotCondition> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
             Conditions.CODEC.fieldOf("condition").forGetter(NotCondition::condition)
     ).apply(instance, NotCondition::new));
     public static final String ID = "not";

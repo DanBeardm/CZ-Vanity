@@ -24,9 +24,9 @@ public class HumanoidArmorLayerMixin<T extends LivingEntity, A extends HumanoidM
             method = "renderArmorPiece",
             at = @At(
                     value = "INVOKE",
-                    target = "Lnet/minecraft/client/renderer/entity/layers/HumanoidArmorLayer;renderModel(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;ILnet/minecraft/world/item/ArmorItem;Lnet/minecraft/client/model/HumanoidModel;ZFFFLjava/lang/String;)V"
+                    target = "Lnet/minecraft/client/renderer/entity/layers/HumanoidArmorLayer;renderModel(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;ILnet/minecraft/client/model/HumanoidModel;FFFLnet/minecraft/resources/ResourceLocation;)V"
             ),
-            index = 4
+            index = 3
     )
     @PlatformOnly("fabric")
     private A vanity$changeModel(A model, @Local(argsOnly = true) T livingEntity, @Local(argsOnly = true) EquipmentSlot equipmentSlot) {

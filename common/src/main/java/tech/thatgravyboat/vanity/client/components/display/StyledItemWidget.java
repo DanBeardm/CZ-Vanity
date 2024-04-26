@@ -6,7 +6,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.world.item.HorseArmorItem;
+import net.minecraft.world.item.AnimalArmorItem;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import tech.thatgravyboat.vanity.api.design.DesignManager;
@@ -80,8 +80,8 @@ public class StyledItemWidget extends BaseAbstractWidget {
         if (style == null) {
             this.display = null;
         } else if (style.hasAsset(AssetTypes.ARMOR) || style.hasAsset(AssetTypes.GECKOLIB_ARMOR)) {
-            if (stack.getItem() instanceof HorseArmorItem) {
-                this.display = new HorseArmorDisplay();
+            if (stack.getItem() instanceof AnimalArmorItem) {
+                this.display = new AnimalArmorDisplay();
             } else {
                 this.display = new ArmorDisplay();
             }

@@ -11,11 +11,13 @@ import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.GameRules;
+import net.minecraft.world.level.GameType;
 import net.minecraft.world.level.Level;
 import tech.thatgravyboat.vanity.common.block.StylingTableBlockEntity;
 import tech.thatgravyboat.vanity.common.handler.unlockables.UnlockableSaveHandler;
 import tech.thatgravyboat.vanity.common.item.DesignHelper;
 import tech.thatgravyboat.vanity.common.registries.ModBlocks;
+import tech.thatgravyboat.vanity.common.registries.ModDataComponents;
 import tech.thatgravyboat.vanity.common.registries.ModGameRules;
 import tech.thatgravyboat.vanity.common.registries.ModItems;
 
@@ -30,7 +32,7 @@ public class DesignTests implements FabricGameTest {
     @GameTest(template = EMPTY_STRUCTURE)
     public void testDesignUnlocking(GameTestHelper helper) {
         InteractionResultHolder<ItemStack> result;
-        Player mockPlayer = helper.makeMockPlayer();
+        Player mockPlayer = helper.makeMockPlayer(GameType.SURVIVAL);
         Level level = helper.getLevel();
 
         setGameRule(helper, ModGameRules.UNLOCKABLE_DESIGNS.key(), false);
@@ -46,14 +48,14 @@ public class DesignTests implements FabricGameTest {
         helper.assertTrue(result.getResult() == InteractionResult.FAIL, "Design item failed to fail when design is null");
         helper.assertTrue(result.getObject().getCount() == 1, "Design item used when design is null");
 
-        setItem(mockPlayer, DesignHelper.createDesignItem(UNLOCKABLE_DESIGN));
+        setItem(mockPlayer, createDesignItem(UNLOCKABLE_DESIGN));
         result = useItem(mockPlayer);
         helper.assertTrue(result.getResult() == InteractionResult.CONSUME, "Design item failed to consume when design is not null");
         helper.assertTrue(result.getObject().getCount() == 0, "Design item not used when design is not null");
         List<ResourceLocation> unlockables = UnlockableSaveHandler.getUnlockables(level, mockPlayer.getUUID());
         helper.assertTrue(unlockables.contains(UNLOCKABLE_DESIGN), "Design not unlocked");
 
-        setItem(mockPlayer, DesignHelper.createDesignItem(UNLOCKABLE_DESIGN));
+        setItem(mockPlayer, createDesignItem(UNLOCKABLE_DESIGN));
         result = useItem(mockPlayer);
         helper.assertTrue(result.getResult() == InteractionResult.FAIL, "Design item failed to fail when design is already unlocked");
         helper.assertTrue(result.getObject().getCount() == 1, "Design item used when design is already unlocked");
@@ -66,7 +68,7 @@ public class DesignTests implements FabricGameTest {
     @SuppressWarnings("DataFlowIssue")
     @GameTest(template = EMPTY_STRUCTURE)
     public void testDesignAvailableDesigns(GameTestHelper helper) {
-        Player mockPlayer = helper.makeMockPlayer();
+        Player mockPlayer = helper.makeMockPlayer(GameType.SURVIVAL);
         Level level = helper.getLevel();
         BlockPos tablePos = BlockPos.ZERO.above();
 
@@ -89,7 +91,7 @@ public class DesignTests implements FabricGameTest {
         helper.assertTrue(designs.contains(DEFAULT_DESIGN), "Designs does not contain the default design");
         helper.assertTrue(designs.contains(UNLOCKABLE_DESIGN), "Designs does not contain the unlockable design");
 
-        table.items().set(0, DesignHelper.createDesignItem(TEST_DESIGN));
+        table.items().set(0, createDesignItem(TEST_DESIGN));
         designs = table.styling().getDesignsForPlayer(mockPlayer);
         helper.assertTrue(designs.size() == 3, "Designs has the default, unlockable, and table designs");
         helper.assertTrue(designs.contains(DEFAULT_DESIGN), "Designs does not contain the default design");
@@ -109,5 +111,11 @@ public class DesignTests implements FabricGameTest {
 
     private static void setGameRule(GameTestHelper helper, GameRules.Key<GameRules.BooleanValue> key, boolean value) {
         helper.getLevel().getGameRules().getRule(key).set(value, helper.getLevel().getServer());
+    }
+
+    private static ItemStack createDesignItem(ResourceLocation id) {
+        ItemStack stack = new ItemStack(ModItems.DESIGN.get());
+        stack.set(ModDataComponents.DESIGN.get(), id);
+        return stack;
     }
 }

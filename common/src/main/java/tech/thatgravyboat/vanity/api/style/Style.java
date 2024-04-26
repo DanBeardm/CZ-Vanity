@@ -6,11 +6,11 @@ import com.mojang.serialization.DataResult;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.teamresourceful.resourcefullib.common.codecs.CodecExtras;
+import net.minecraft.Util;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
-import net.minecraft.util.ExtraCodecs;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import tech.thatgravyboat.vanity.common.util.XorMapCodec;
@@ -36,15 +36,15 @@ public record Style(
             ).fieldOf("item")
     );
 
-    public static final Codec<Style> CODEC = ExtraCodecs.validate(RecordCodecBuilder.create(instance -> instance.group(
+    public static final Codec<Style> CODEC = Util.make(RecordCodecBuilder.create(instance -> instance.group(
             ITEM_CODEC.forGetter(Style::item),
             Codec.unboundedMap(Codec.STRING, ResourceLocation.CODEC).optionalFieldOf("assets", new HashMap<>()).forGetter(Style::assets)
-    ).apply(instance, Style::of)), style -> {
+    ).apply(instance, Style::of)), codec -> codec.validate(style -> {
         if (!style.assets.containsKey("default")) {
             return DataResult.error(() -> "Styles must contain a 'default' asset");
         }
         return DataResult.success(style);
-    });
+    }));
 
     public static Style of(Either<TagKey<Item>, Set<Item>> item, Map<String, ResourceLocation> tempModels) {
         return new Style(item, new HashMap<>(tempModels));

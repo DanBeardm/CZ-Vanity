@@ -3,29 +3,34 @@ package tech.thatgravyboat.vanity.api.design;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.teamresourceful.resourcefullib.common.codecs.CodecExtras;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
 import tech.thatgravyboat.vanity.api.style.Style;
 import tech.thatgravyboat.vanity.api.style.StyleListCodec;
+import tech.thatgravyboat.vanity.common.registries.ModItems;
 
 import java.util.*;
 
 public record Design(
     @Nullable ResourceLocation model,
+    Item item,
     DesignType type,
     Map<String, List<Style>> styles
 ) {
 
     public static final Codec<Design> CODEC = RecordCodecBuilder.create(instance -> instance.group(
             ResourceLocation.CODEC.optionalFieldOf("model").forGetter(CodecExtras.optionalFor(Design::model)),
-            DesignType.CODEC.optionalFieldOf("type", DesignType.ITEM).forGetter(Design::type),
+            BuiltInRegistries.ITEM.byNameCodec().optionalFieldOf("item", ModItems.DESIGN.get()).forGetter(Design::item),
+            DesignType.CODEC.optionalFieldOf("type", tech.thatgravyboat.vanity.api.design.DesignType.ITEM).forGetter(Design::type),
             Codec.unboundedMap(Codec.STRING, StyleListCodec.INSTANCE).fieldOf("styles").forGetter(Design::styles)
     ).apply(instance, Design::new));
 
     @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
-    private Design(Optional<ResourceLocation> model, DesignType type, Map<String, List<Style>> styles) {
-        this(model.orElse(null), type, clearEmptyLists(styles));
+    private Design(Optional<ResourceLocation> model, Item item, DesignType type, Map<String, List<Style>> styles) {
+        this(model.orElse(null), item, type, clearEmptyLists(styles));
     }
 
     private static Map<String, List<Style>> clearEmptyLists(Map<String, List<Style>> styles) {
@@ -66,5 +71,4 @@ public record Design(
     public boolean canBeSold() {
         return this.type == DesignType.SELLABLE;
     }
-
 }

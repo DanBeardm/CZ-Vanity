@@ -1,9 +1,9 @@
 package tech.thatgravyboat.vanity.mixins;
 
+import com.teamresourceful.resourcefullib.common.utils.modinfo.ModInfoUtils;
 import org.objectweb.asm.tree.ClassNode;
 import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
 import org.spongepowered.asm.mixin.extensibility.IMixinInfo;
-import tech.thatgravyboat.vanity.common.util.ModUtils;
 
 import java.util.List;
 import java.util.Set;
@@ -31,7 +31,7 @@ public class VanityMixinPlugin implements IMixinConfigPlugin {
         String[] parts = info.split("\\.");
         return switch (parts[0]) {
             case "common", "client" -> true;
-            case "compat" -> ModUtils.isMixinModLoaded(parts[1]);
+            case "compat" -> ModInfoUtils.isMixinModLoaded(parts[1]);
             default -> false;
         };
     }

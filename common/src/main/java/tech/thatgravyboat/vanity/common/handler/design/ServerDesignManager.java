@@ -63,7 +63,7 @@ public class ServerDesignManager extends DesignManagerImpl implements Preparable
                         Condition condition = Conditions.CODEC.parse(
                             JsonOps.INSTANCE,
                             entry.getValue().getAsJsonObject().get("condition")
-                        ).getOrThrow(false, LOGGER::error);
+                        ).getOrThrow();
 
                         if (!condition.test()) {
                             continue;
