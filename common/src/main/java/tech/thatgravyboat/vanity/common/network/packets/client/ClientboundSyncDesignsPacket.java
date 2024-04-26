@@ -1,11 +1,12 @@
 package tech.thatgravyboat.vanity.common.network.packets.client;
 
+import com.teamresourceful.bytecodecs.base.ByteCodec;
+import com.teamresourceful.bytecodecs.base.object.ObjectByteCodec;
+import com.teamresourceful.resourcefullib.common.bytecodecs.ExtraByteCodecs;
 import com.teamresourceful.resourcefullib.common.network.Packet;
 import com.teamresourceful.resourcefullib.common.network.base.ClientboundPacketType;
 import com.teamresourceful.resourcefullib.common.network.base.PacketType;
-import net.minecraft.nbt.NbtOps;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.network.RegistryFriendlyByteBuf;
+import com.teamresourceful.resourcefullib.common.network.defaults.CodecPacketType;
 import net.minecraft.resources.ResourceLocation;
 import tech.thatgravyboat.vanity.api.design.Design;
 import tech.thatgravyboat.vanity.client.VanityClientNetwork;
@@ -14,7 +15,9 @@ import tech.thatgravyboat.vanity.common.handler.design.DesignManagerImpl;
 
 import java.util.Map;
 
-public record ClientboundSyncDesignsPacket(Map<ResourceLocation, Design> designs) implements Packet<ClientboundSyncDesignsPacket> {
+public record ClientboundSyncDesignsPacket(
+        Map<ResourceLocation, Design> designs
+) implements Packet<ClientboundSyncDesignsPacket> {
 
     public static final ClientboundPacketType<ClientboundSyncDesignsPacket> TYPE = new Type();
 
@@ -27,36 +30,16 @@ public record ClientboundSyncDesignsPacket(Map<ResourceLocation, Design> designs
         return TYPE;
     }
 
-    private static class Type implements ClientboundPacketType<ClientboundSyncDesignsPacket> {
+    private static class Type extends CodecPacketType<ClientboundSyncDesignsPacket> implements ClientboundPacketType<ClientboundSyncDesignsPacket> {
 
-        public static final ResourceLocation ID = new ResourceLocation(Vanity.MOD_ID, "sync_designs");
-
-        @Override
-        public Class<ClientboundSyncDesignsPacket> type() {
-            return ClientboundSyncDesignsPacket.class;
-        }
-
-        @Override
-        public ResourceLocation id() {
-            return ID;
-        }
-
-        @Override
-        public void encode(ClientboundSyncDesignsPacket message, RegistryFriendlyByteBuf buffer) {
-            buffer.writeMap(
-                message.designs,
-                FriendlyByteBuf::writeResourceLocation,
-                (buf, design) -> buf.writeWithCodec(NbtOps.INSTANCE, Design.CODEC, design)
-            );
-        }
-
-        @Override
-        public ClientboundSyncDesignsPacket decode(RegistryFriendlyByteBuf buffer) {
-            return new ClientboundSyncDesignsPacket(
-                buffer.readMap(
-                    FriendlyByteBuf::readResourceLocation,
-                    buf -> buf.readWithCodecTrusted(NbtOps.INSTANCE, Design.CODEC)
-                )
+        public Type() {
+            super(
+                    ClientboundSyncDesignsPacket.class,
+                    new ResourceLocation(Vanity.MOD_ID, "sync_designs"),
+                    ObjectByteCodec.create(
+                            ByteCodec.mapOf(ExtraByteCodecs.RESOURCE_LOCATION, Design.BYTE_CODEC).fieldOf(ClientboundSyncDesignsPacket::designs),
+                            ClientboundSyncDesignsPacket::new
+                    )
             );
         }
 

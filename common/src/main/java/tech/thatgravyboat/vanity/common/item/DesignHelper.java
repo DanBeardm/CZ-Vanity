@@ -25,7 +25,7 @@ public class DesignHelper {
     }
 
     public static ItemStack createDesignItem(ResourceLocation id, Design design) {
-        ItemStack stack = new ItemStack(design.item());
+        ItemStack stack = design.item().copyWithCount(1);
         stack.set(ModDataComponents.DESIGN.get(), id);
         stack.set(DataComponents.ITEM_NAME, DesignHelper.getTranslationKey(id, null));
         return stack;

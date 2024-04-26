@@ -5,6 +5,9 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import com.teamresourceful.bytecodecs.base.ByteCodec;
+import com.teamresourceful.bytecodecs.base.object.ObjectByteCodec;
+import com.teamresourceful.resourcefullib.common.bytecodecs.ExtraByteCodecs;
 import com.teamresourceful.resourcefullib.common.codecs.CodecExtras;
 import net.minecraft.Util;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -45,6 +48,15 @@ public record Style(
         }
         return DataResult.success(style);
     }));
+
+    public static final ByteCodec<Style> BYTE_CODEC = ObjectByteCodec.create(
+            ExtraByteCodecs.either(
+                    ExtraByteCodecs.RESOURCE_LOCATION.map(tag -> TagKey.create(Registries.ITEM, tag), TagKey::location),
+                    ExtraByteCodecs.ITEM.setOf()
+            ).fieldOf(Style::item),
+            ByteCodec.mapOf(ByteCodec.STRING, ExtraByteCodecs.RESOURCE_LOCATION).fieldOf(Style::assets),
+            Style::of
+    );
 
     public static Style of(Either<TagKey<Item>, Set<Item>> item, Map<String, ResourceLocation> tempModels) {
         return new Style(item, new HashMap<>(tempModels));
