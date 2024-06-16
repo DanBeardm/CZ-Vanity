@@ -35,7 +35,11 @@ public class Vanity {
     }
 
     public static void onRegisterReloadListeners(BiConsumer<ResourceLocation, PreparableReloadListener> registry) {
-        registry.accept(new ResourceLocation(Vanity.MOD_ID, "design_manager"), ServerDesignManager.INSTANCE);
-        registry.accept(new ResourceLocation(Vanity.MOD_ID, "villager_trades"), VillagerTradeManager.INSTANCE);
+        registry.accept(id("design_manager"), ServerDesignManager.INSTANCE);
+        registry.accept(id("villager_trades"), VillagerTradeManager.INSTANCE);
+    }
+
+    public static ResourceLocation id(String path) {
+        return ResourceLocation.fromNamespaceAndPath(MOD_ID, path);
     }
 }

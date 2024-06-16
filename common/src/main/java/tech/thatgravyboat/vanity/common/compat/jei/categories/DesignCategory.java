@@ -29,11 +29,11 @@ import java.util.List;
 
 public class DesignCategory implements IRecipeCategory<DesignCategoryRecipe> {
 
-    public static final ResourceLocation ID = new ResourceLocation(Vanity.MOD_ID, "design");
+    public static final ResourceLocation ID = Vanity.id("design");
     public static final RecipeType<DesignCategoryRecipe> TYPE = new RecipeType<>(ID, DesignCategoryRecipe.class);
 
-    private static final ResourceLocation TEXTURE = new ResourceLocation(Vanity.MOD_ID, "textures/gui/container/jei.png");
-    private static final ResourceLocation EMPTY_SLOT = new ResourceLocation(Vanity.MOD_ID, "textures/gui/container/empty_slot.png");
+    private static final ResourceLocation TEXTURE = Vanity.id("textures/gui/container/jei.png");
+    private static final ResourceLocation EMPTY_SLOT = Vanity.id("textures/gui/container/empty_slot.png");
 
     private final IGuiHelper helper;
     private final IDrawable background;

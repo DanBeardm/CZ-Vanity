@@ -8,8 +8,8 @@ import tech.thatgravyboat.vanity.common.handler.design.ServerDesignManager;
 
 public class ConditionTests implements FabricGameTest {
 
-    private static final ResourceLocation ALWAYS_TRUE = new ResourceLocation("test", "always_true");
-    private static final ResourceLocation ALWAYS_FALSE = new ResourceLocation("test", "always_false");
+    private static final ResourceLocation ALWAYS_TRUE = ResourceLocation.fromNamespaceAndPath("test", "always_true");
+    private static final ResourceLocation ALWAYS_FALSE = ResourceLocation.fromNamespaceAndPath("test", "always_false");
 
     @GameTest(template = EMPTY_STRUCTURE)
     public void testFailingConditions(GameTestHelper helper) {

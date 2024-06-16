@@ -12,7 +12,7 @@ import tech.thatgravyboat.vanity.common.network.packets.server.ServerboundSelect
 public class NetworkHandler {
     public static final int PROTOCOL_VERSION = 1;
 
-    public static final Network CHANNEL = new Network(new ResourceLocation(Vanity.MOD_ID, "main"), PROTOCOL_VERSION);
+    public static final Network CHANNEL = new Network(Vanity.id("main"), PROTOCOL_VERSION);
 
     public static void init() {
         CHANNEL.register(ClientboundSyncDesignsPacket.TYPE);

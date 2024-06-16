@@ -23,12 +23,12 @@ public record Design(
     Map<String, List<Style>> styles
 ) {
 
-    public static final Codec<Design> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+    public static final Codec<Design> CODEC = Codec.lazyInitialized(() -> RecordCodecBuilder.create(instance -> instance.group(
             ResourceLocation.CODEC.optionalFieldOf("model").forGetter(CodecExtras.optionalFor(Design::model)),
             ItemStackCodec.CODEC.optionalFieldOf("item", ModItems.DESIGN.get().getDefaultInstance()).forGetter(Design::item),
             DesignType.CODEC.optionalFieldOf("type", DesignType.ITEM).forGetter(Design::type),
             Codec.unboundedMap(Codec.STRING, StyleListCodec.INSTANCE).fieldOf("styles").forGetter(Design::styles)
-    ).apply(instance, Design::new));
+    ).apply(instance, Design::new)));
 
     public static final ByteCodec<Design> BYTE_CODEC = ObjectByteCodec.create(
             ExtraByteCodecs.RESOURCE_LOCATION.optionalFieldOf(CodecExtras.optionalFor(Design::model)),

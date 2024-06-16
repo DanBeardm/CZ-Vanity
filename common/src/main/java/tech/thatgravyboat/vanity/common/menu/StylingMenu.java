@@ -26,7 +26,7 @@ import java.util.*;
 
 public class StylingMenu extends BaseContainerMenu {
 
-    public static final ResourceLocation REMOVE_DESIGN = new ResourceLocation(Vanity.MOD_ID, "remove_design");
+    public static final ResourceLocation REMOVE_DESIGN = Vanity.id("remove_design");
 
     private final List<ResourceLocation> designs;
     private final Map<ResourceLocation, List<String>> styles = new LinkedHashMap<>();

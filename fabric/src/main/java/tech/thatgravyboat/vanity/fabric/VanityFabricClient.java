@@ -2,7 +2,7 @@ package tech.thatgravyboat.vanity.fabric;
 
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
-import net.fabricmc.fabric.api.client.model.ModelLoadingRegistry;
+import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.RenderType;
 import tech.thatgravyboat.vanity.client.VanityClient;
 import tech.thatgravyboat.vanity.common.registries.ModBlocks;
@@ -11,9 +11,7 @@ public class VanityFabricClient implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
-        ModelLoadingRegistry.INSTANCE.registerModelProvider(VanityClient::registerModels);
-        VanityClient.setup();
-
+        VanityClient.registerScreens(MenuScreens::register);
         BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.STYLING_TABLE.get(), RenderType.cutout());
     }
 }

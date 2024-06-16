@@ -13,14 +13,17 @@ import tech.thatgravyboat.vanity.api.design.DesignManager;
 import tech.thatgravyboat.vanity.common.Vanity;
 import tech.thatgravyboat.vanity.common.compat.jei.categories.DesignCategory;
 import tech.thatgravyboat.vanity.common.compat.jei.categories.DesignCategoryRecipe;
+import tech.thatgravyboat.vanity.common.registries.ModDataComponents;
 import tech.thatgravyboat.vanity.common.registries.ModItems;
+
+import java.util.Objects;
 
 @JeiPlugin
 public class VanityJeiPlugin implements IModPlugin {
 
     @Override
     public @NotNull ResourceLocation getPluginUid() {
-        return new ResourceLocation(Vanity.MOD_ID, "jei");
+        return Vanity.id("jei");
     }
 
     @Override
@@ -45,6 +48,9 @@ public class VanityJeiPlugin implements IModPlugin {
 
     @Override
     public void registerItemSubtypes(ISubtypeRegistration registration) {
-        registration.useNbtForSubtypes(ModItems.DESIGN.get());
+        registration.registerSubtypeInterpreter(
+                ModItems.DESIGN.get(),
+                (stack, context) -> Objects.toString(stack.get(ModDataComponents.DESIGN.get()))
+        );
     }
 }

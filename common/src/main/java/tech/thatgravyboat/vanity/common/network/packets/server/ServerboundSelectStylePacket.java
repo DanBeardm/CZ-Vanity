@@ -34,7 +34,7 @@ public record ServerboundSelectStylePacket(ResourceLocation design, Optional<Str
         public Type() {
             super(
                 ServerboundSelectStylePacket.class,
-                new ResourceLocation(Vanity.MOD_ID, "select_style"),
+                Vanity.id("select_style"),
                 ObjectByteCodec.create(
                     ExtraByteCodecs.RESOURCE_LOCATION.fieldOf(ServerboundSelectStylePacket::design),
                     ByteCodec.STRING.optionalFieldOf(ServerboundSelectStylePacket::style),

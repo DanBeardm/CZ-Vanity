@@ -61,7 +61,7 @@ subprojects {
 
         "modImplementation"(group = "software.bernie.geckolib", name = "geckolib-$modLoader-$minecraftVersion", version = geckolibVersion)
         if (isCommon) {
-            "modCompileOnly"(group = "mezz.jei", name = "jei-1.20.4-common-api", version = jeiVersion)
+            "modCompileOnly"(group = "mezz.jei", name = "jei-1.20.6-common-api", version = jeiVersion)
         } else {
             "include"(rlib)
         }

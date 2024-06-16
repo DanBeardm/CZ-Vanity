@@ -13,6 +13,7 @@
     "client": [
         "client.ItemRendererMixin",
         "client.ItemStackMixin",
+        "client.ModelBakeryMixin",
         "client.armor.AgeableListModelAccessor",
         "client.armor.ElytraLayerMixin",
         "client.armor.HorseArmorLayerMixin",

@@ -22,9 +22,9 @@ import java.util.Objects;
 
 public class StyleButton extends BaseAbstractWidget {
 
-    private static final ResourceLocation NORMAL = new ResourceLocation(Vanity.MOD_ID, "textures/gui/sprites/button/normal.png");
-    private static final ResourceLocation HOVERED = new ResourceLocation(Vanity.MOD_ID, "textures/gui/sprites/button/hovered.png");
-    private static final ResourceLocation SELECTED = new ResourceLocation(Vanity.MOD_ID, "textures/gui/sprites/button/selected.png");
+    private static final ResourceLocation NORMAL = Vanity.id("textures/gui/sprites/button/normal.png");
+    private static final ResourceLocation HOVERED = Vanity.id("textures/gui/sprites/button/hovered.png");
+    private static final ResourceLocation SELECTED = Vanity.id("textures/gui/sprites/button/selected.png");
 
     private final ResourceLocation design;
     private final String style;

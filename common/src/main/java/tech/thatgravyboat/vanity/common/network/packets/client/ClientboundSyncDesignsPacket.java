@@ -35,7 +35,7 @@ public record ClientboundSyncDesignsPacket(
         public Type() {
             super(
                     ClientboundSyncDesignsPacket.class,
-                    new ResourceLocation(Vanity.MOD_ID, "sync_designs"),
+                    Vanity.id("sync_designs"),
                     ObjectByteCodec.create(
                             ByteCodec.mapOf(ExtraByteCodecs.RESOURCE_LOCATION, Design.BYTE_CODEC).fieldOf(ClientboundSyncDesignsPacket::designs),
                             ClientboundSyncDesignsPacket::new

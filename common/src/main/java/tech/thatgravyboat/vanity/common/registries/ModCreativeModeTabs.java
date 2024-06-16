@@ -19,11 +19,11 @@ import java.util.function.BiConsumer;
 
 public class ModCreativeModeTabs {
 
-    private static final ResourceKey<CreativeModeTab> FUNCTIONAL_BLOCKS = ResourceKey.create(Registries.CREATIVE_MODE_TAB, new ResourceLocation("functional_blocks"));
+    private static final ResourceKey<CreativeModeTab> FUNCTIONAL_BLOCKS = ResourceKey.create(Registries.CREATIVE_MODE_TAB, ResourceLocation.withDefaultNamespace("functional_blocks"));
     public static final ResourcefulRegistry<CreativeModeTab> TABS = ResourcefulRegistries.create(BuiltInRegistries.CREATIVE_MODE_TAB, Vanity.MOD_ID);
 
     public static final RegistryEntry<CreativeModeTab> DESIGN_TAB = TABS.register("designs",
-            () -> new ResourcefulCreativeModeTab(new ResourceLocation(Vanity.MOD_ID, "designs"))
+            () -> new ResourcefulCreativeModeTab(Vanity.id("designs"))
                     .setItemIcon(ModBlocks.STYLING_TABLE)
                     .addContent(() -> {
                         DesignManager manager = DesignManager.get(true);

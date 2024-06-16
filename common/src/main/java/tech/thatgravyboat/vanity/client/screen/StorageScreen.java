@@ -18,7 +18,7 @@ import tech.thatgravyboat.vanity.common.util.ComponentConstants;
 
 public class StorageScreen extends AbstractContainerScreen<StorageMenu> {
 
-    private static final ResourceLocation BACKGROUND = new ResourceLocation(Vanity.MOD_ID, "textures/gui/container/storage.png");
+    private static final ResourceLocation BACKGROUND = Vanity.id("textures/gui/container/storage.png");
 
     public StorageScreen(StorageMenu abstractContainerMenu, Inventory inventory, Component component) {
         super(abstractContainerMenu, inventory, component);

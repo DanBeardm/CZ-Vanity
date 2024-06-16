@@ -20,7 +20,13 @@ public class ClientDesignManager extends DesignManagerImpl {
     private static final Map<ResourceLocation, ModelResourceLocation> MODEL_LOCATION_CACHE = new HashMap<>();
 
     public static ModelResourceLocation getModelLocation(ResourceLocation location) {
-        return MODEL_LOCATION_CACHE.computeIfAbsent(location, loc -> new ModelResourceLocation(new ResourceLocation(location.getNamespace(), PATH + "/" + location.getPath()), "inventory"));
+        return MODEL_LOCATION_CACHE.computeIfAbsent(
+                location,
+                loc -> new ModelResourceLocation(
+                        ResourceLocation.fromNamespaceAndPath(location.getNamespace(), PATH + "/" + location.getPath()),
+                        "inventory"
+                )
+        );
     }
 
     public void readPacket(ClientboundSyncDesignsPacket packet) {

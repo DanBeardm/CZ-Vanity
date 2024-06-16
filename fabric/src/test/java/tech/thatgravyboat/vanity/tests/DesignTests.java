@@ -15,7 +15,6 @@ import net.minecraft.world.level.GameType;
 import net.minecraft.world.level.Level;
 import tech.thatgravyboat.vanity.common.block.StylingTableBlockEntity;
 import tech.thatgravyboat.vanity.common.handler.unlockables.UnlockableSaveHandler;
-import tech.thatgravyboat.vanity.common.item.DesignHelper;
 import tech.thatgravyboat.vanity.common.registries.ModBlocks;
 import tech.thatgravyboat.vanity.common.registries.ModDataComponents;
 import tech.thatgravyboat.vanity.common.registries.ModGameRules;
@@ -25,9 +24,9 @@ import java.util.List;
 
 public class DesignTests implements FabricGameTest {
 
-    private static final ResourceLocation TEST_DESIGN = new ResourceLocation("test", "test");
-    private static final ResourceLocation DEFAULT_DESIGN = new ResourceLocation("test", "default");
-    private static final ResourceLocation UNLOCKABLE_DESIGN = new ResourceLocation("test", "unlockable");
+    private static final ResourceLocation TEST_DESIGN = ResourceLocation.fromNamespaceAndPath("test", "test");
+    private static final ResourceLocation DEFAULT_DESIGN = ResourceLocation.fromNamespaceAndPath("test", "default");
+    private static final ResourceLocation UNLOCKABLE_DESIGN = ResourceLocation.fromNamespaceAndPath("test", "unlockable");
 
     @GameTest(template = EMPTY_STRUCTURE)
     public void testDesignUnlocking(GameTestHelper helper) {

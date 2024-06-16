@@ -29,6 +29,7 @@ import software.bernie.geckolib.util.RenderUtil;
 import tech.thatgravyboat.vanity.mixins.client.armor.AgeableListModelAccessor;
 import tech.thatgravyboat.vanity.mixins.client.armor.LevelRenderAccessor;
 
+@SuppressWarnings("UnstableApiUsage")
 public class StyledGeoArmorRenderer extends HumanoidModel<LivingEntity> implements GeoRenderer<StyledArmorGeoAnimatable> {
     protected final GeoModel<StyledArmorGeoAnimatable> model;
 
@@ -76,13 +77,14 @@ public class StyledGeoArmorRenderer extends HumanoidModel<LivingEntity> implemen
         return this.currentEntity.getId();
     }
 
+    @NotNull
     @Override
     public RenderType getRenderType(StyledArmorGeoAnimatable style, ResourceLocation texture, @Nullable MultiBufferSource source, float partialTick) {
         return RenderType.armorCutoutNoCull(texture);
     }
 
     @Override
-    public void preRender(PoseStack stack, StyledArmorGeoAnimatable style, BakedGeoModel model, @Nullable MultiBufferSource source, @Nullable VertexConsumer buffer, boolean isReRender, float partialTick, int packedLight, int packedOverlay, float r, float g, float b, float a) {
+    public void preRender(PoseStack stack, StyledArmorGeoAnimatable style, BakedGeoModel model, @Nullable MultiBufferSource source, @Nullable VertexConsumer buffer, boolean isReRender, float partialTick, int packedLight, int packedOverlay, int colour) {
         this.entityRenderTranslations = new Matrix4f(stack.last().pose());
 
         applyBaseModel(this.baseModel);
@@ -97,7 +99,7 @@ public class StyledGeoArmorRenderer extends HumanoidModel<LivingEntity> implemen
     }
 
     @Override
-    public void renderToBuffer(@NotNull PoseStack stack, @NotNull VertexConsumer consumer, int packedLight, int packedOverlay, float r, float g, float b, float a) {
+    public void renderToBuffer(PoseStack stack, @Nullable VertexConsumer consumer, int packedLight, int packedOverlay, int colour) {
         Minecraft mc = Minecraft.getInstance();
         MultiBufferSource bufferSource = mc.renderBuffers().bufferSource();
 
@@ -107,16 +109,18 @@ public class StyledGeoArmorRenderer extends HumanoidModel<LivingEntity> implemen
             bufferSource = mc.renderBuffers().outlineBufferSource();
         }
 
-        float partialTick = mc.getFrameTime();
+        float partialTick = mc.getTimer().getGameTimeDeltaPartialTick(true);
         RenderType renderType = getRenderType(this.animatable, getTextureLocation(this.animatable), bufferSource, partialTick);
-        consumer = ItemRenderer.getArmorFoilBuffer(bufferSource, renderType, false, this.currentStack.hasFoil());
+        consumer = ItemRenderer.getArmorFoilBuffer(bufferSource, renderType, this.currentStack.hasFoil());
 
         defaultRender(stack, this.animatable, bufferSource, null, consumer,
                 0, partialTick, packedLight);
+
+        this.animatable = null;
     }
 
     @Override
-    public void actuallyRender(PoseStack stack, StyledArmorGeoAnimatable style, BakedGeoModel model, RenderType type, MultiBufferSource source, VertexConsumer consumer, boolean isReRender, float partialTick, int packedLight, int packedOverlay, float r, float g, float b, float a) {
+    public void actuallyRender(PoseStack stack, StyledArmorGeoAnimatable style, BakedGeoModel model, @Nullable RenderType type, MultiBufferSource source, @Nullable VertexConsumer consumer, boolean isReRender, float partialTick, int packedLight, int packedOverlay, int colour) {
         stack.pushPose();
         stack.translate(0, 24 / 16f, 0);
         stack.scale(-1, -1, 1);
@@ -130,17 +134,20 @@ public class StyledGeoArmorRenderer extends HumanoidModel<LivingEntity> implemen
             animationState.setData(DataTickets.ENTITY, this.currentEntity);
             animationState.setData(DataTickets.EQUIPMENT_SLOT, this.currentSlot);
             this.model.addAdditionalStateData(style, instanceId, animationState::setData);
-            this.model.handleAnimations(style, instanceId, animationState);
+            this.model.handleAnimations(style, instanceId, animationState, partialTick);
         }
 
         this.modelRenderTranslations = new Matrix4f(stack.last().pose());
 
-        GeoRenderer.super.actuallyRender(stack, style, model, type, source, consumer, isReRender, partialTick, packedLight, packedOverlay, r, g, b, a);
+        if (consumer != null) {
+            GeoRenderer.super.actuallyRender(stack, style, model, type, source, consumer, isReRender, partialTick, packedLight, packedOverlay, colour);
+        }
+
         stack.popPose();
     }
 
     @Override
-    public void renderRecursively(PoseStack stack, StyledArmorGeoAnimatable animatable, GeoBone bone, RenderType type, MultiBufferSource source, VertexConsumer consumer, boolean isReRender, float partialTick, int packedLight, int packedOverlay, float r, float g, float b, float a) {
+    public void renderRecursively(PoseStack stack, StyledArmorGeoAnimatable animatable, GeoBone bone, RenderType type, MultiBufferSource source, VertexConsumer consumer, boolean isReRender, float partialTick, int packedLight, int packedOverlay, int colour) {
         if (bone.isTrackingMatrices()) {
             Matrix4f poseState = new Matrix4f(stack.last().pose());
 
@@ -148,7 +155,7 @@ public class StyledGeoArmorRenderer extends HumanoidModel<LivingEntity> implemen
             bone.setLocalSpaceMatrix(RenderUtil.invertAndMultiplyMatrices(poseState, this.entityRenderTranslations));
         }
 
-        GeoRenderer.super.renderRecursively(stack, animatable, bone, type, source, consumer, isReRender, partialTick, packedLight, packedOverlay, r, g, b, a);
+        GeoRenderer.super.renderRecursively(stack, animatable, bone, type, source, consumer, isReRender, partialTick, packedLight, packedOverlay, colour);
     }
 
     protected void grabRelevantBones(BakedGeoModel model) {

@@ -23,7 +23,7 @@ import java.util.Map;
 public class StylesListWidget extends BaseParentWidget {
 
     private static final int OFFSET = 2;
-    private static final ResourceLocation THUMB = new ResourceLocation(Vanity.MOD_ID, "textures/gui/sprites/scrollbar/thumb.png");
+    private static final ResourceLocation THUMB = Vanity.id("textures/gui/sprites/scrollbar/thumb.png");
     private static final Comparator<Pair<ResourceLocation, String>> SORTER = Comparator.comparing((Pair<ResourceLocation, String> o) -> o.getFirst()).thenComparing(Pair::getSecond);
 
     private int oldHash = -1;

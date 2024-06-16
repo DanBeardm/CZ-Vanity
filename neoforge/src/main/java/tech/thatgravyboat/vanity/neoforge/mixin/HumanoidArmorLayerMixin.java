@@ -58,17 +58,17 @@ public class HumanoidArmorLayerMixin<T extends LivingEntity, M extends HumanoidM
         method = "renderArmorPiece",
         at = @At(
             value = "INVOKE",
-            target = "Lnet/minecraft/client/renderer/entity/layers/HumanoidArmorLayer;renderModel(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;ILnet/minecraft/client/model/Model;FFFLnet/minecraft/resources/ResourceLocation;)V"
+            target = "Lnet/minecraft/client/renderer/entity/layers/HumanoidArmorLayer;renderModel(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;ILnet/minecraft/client/model/HumanoidModel;ILnet/minecraft/resources/ResourceLocation;)V"
         )
     )
     private void vantity$changeTexture(
-            HumanoidArmorLayer<T, M, A> instance, PoseStack stack, MultiBufferSource source, int i, Model model, float f, float g, float h, ResourceLocation resourceLocation, Operation<Void> original, @Share("vanity$texture") LocalRef<ResourceLocation> texture
+            HumanoidArmorLayer<T, M, A> instance, PoseStack stack, MultiBufferSource source, int i, A model, int j, ResourceLocation resourceLocation, Operation<Void> original, @Share("vanity$texture") LocalRef<ResourceLocation> texture
     ) {
         if (texture.get() != null) {
             VertexConsumer consumer = source.getBuffer(RenderType.armorCutoutNoCull(texture.get()));
-            model.renderToBuffer(stack, consumer, i, OverlayTexture.NO_OVERLAY, f, g, h, 1.0F);
+            model.renderToBuffer(stack, consumer, i, OverlayTexture.NO_OVERLAY, j);
         } else {
-            original.call(instance, stack, source, i, model, f, g, h, resourceLocation);
+            original.call(instance, stack, source, i, model, j, resourceLocation);
         }
     }
 }

@@ -23,7 +23,7 @@ import tech.thatgravyboat.vanity.common.util.ComponentConstants;
 
 public class StylingScreen extends AbstractContainerScreen<StylingMenu> implements ContainerListener {
 
-    private static final ResourceLocation BACKGROUND = new ResourceLocation(Vanity.MOD_ID, "textures/gui/container/styling_table.png");
+    private static final ResourceLocation BACKGROUND = Vanity.id("textures/gui/container/styling_table.png");
 
     private StylesListWidget list;
     private StyledItemWidget display;

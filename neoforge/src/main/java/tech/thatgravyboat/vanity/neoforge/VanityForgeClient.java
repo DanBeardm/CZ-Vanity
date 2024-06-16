@@ -1,10 +1,9 @@
 package tech.thatgravyboat.vanity.neoforge;
 
-import net.minecraft.client.Minecraft;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.client.event.ModelEvent;
+import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import tech.thatgravyboat.vanity.client.VanityClient;
 import tech.thatgravyboat.vanity.common.Vanity;
 
@@ -12,7 +11,7 @@ import tech.thatgravyboat.vanity.common.Vanity;
 public class VanityForgeClient {
 
     @SubscribeEvent
-    public static void onEvent(ModelEvent.RegisterAdditional event) {
-        VanityClient.registerModels(Minecraft.getInstance().getResourceManager(), event::register);
+    public static void onRegisterScreen(RegisterMenuScreensEvent event) {
+        VanityClient.registerScreens(event::register);
     }
 }

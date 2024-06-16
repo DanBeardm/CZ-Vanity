@@ -18,8 +18,8 @@ import tech.thatgravyboat.vanity.common.util.ComponentConstants;
 
 public class StyledItemWidget extends BaseAbstractWidget {
 
-    private static final ResourceLocation NORMAL = new ResourceLocation(Vanity.MOD_ID, "textures/gui/sprites/reset/normal.png");
-    private static final ResourceLocation HOVERED = new ResourceLocation(Vanity.MOD_ID, "textures/gui/sprites/reset/hovered.png");
+    private static final ResourceLocation NORMAL = Vanity.id("textures/gui/sprites/reset/normal.png");
+    private static final ResourceLocation HOVERED = Vanity.id("textures/gui/sprites/reset/hovered.png");
 
     private Display display;
 

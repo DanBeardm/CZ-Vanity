@@ -6,7 +6,6 @@ import com.teamresourceful.resourcefullib.common.network.base.PacketType;
 import com.teamresourceful.resourcefullib.common.network.base.ServerboundPacketType;
 import com.teamresourceful.resourcefullib.common.network.defaults.CodecPacketType;
 import net.minecraft.core.BlockPos;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -31,7 +30,7 @@ public record ServerboundOpenTabPacket(boolean storage) implements Packet<Server
         public Type() {
             super(
                 ServerboundOpenTabPacket.class,
-                new ResourceLocation(Vanity.MOD_ID, "open_tab"),
+                Vanity.id("open_tab"),
                 ByteCodec.BOOLEAN.map(ServerboundOpenTabPacket::new, ServerboundOpenTabPacket::storage)
             );
         }

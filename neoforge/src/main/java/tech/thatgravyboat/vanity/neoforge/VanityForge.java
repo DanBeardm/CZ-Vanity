@@ -6,14 +6,12 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
-import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.AddReloadListenerEvent;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.event.server.ServerAboutToStartEvent;
 import net.neoforged.neoforge.event.village.VillagerTradesEvent;
 import org.apache.commons.lang3.Validate;
-import tech.thatgravyboat.vanity.client.VanityClient;
 import tech.thatgravyboat.vanity.common.Vanity;
 import tech.thatgravyboat.vanity.common.registries.ModCreativeModeTabs;
 import tech.thatgravyboat.vanity.common.registries.ModTrades;
@@ -23,7 +21,6 @@ import java.util.stream.Collectors;
 @Mod(Vanity.MOD_ID)
 public class VanityForge {
     public VanityForge(IEventBus bus) {
-        bus.addListener(this::onClientInit);
         bus.addListener(this::onBuildCreativeModeTabs);
 
         Vanity.init();
@@ -31,10 +28,6 @@ public class VanityForge {
         NeoForge.EVENT_BUS.addListener(this::onAddVillagerTrades);
         NeoForge.EVENT_BUS.addListener(this::onAddReloadListener);
         NeoForge.EVENT_BUS.addListener(this::onServerAboutToStart);
-    }
-
-    private void onClientInit(FMLClientSetupEvent event) {
-        VanityClient.setup();
     }
 
     private void onAddVillagerTrades(VillagerTradesEvent event) {
