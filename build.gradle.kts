@@ -6,7 +6,7 @@ import net.fabricmc.loom.task.RemapJarTask
 plugins {
     java
     id("maven-publish")
-    id("dev.architectury.loom") version "1.6-SNAPSHOT" apply false
+    id("dev.architectury.loom") version "1.7-SNAPSHOT" apply false
     id("architectury-plugin") version "3.4-SNAPSHOT"
     id("com.github.johnrengelman.shadow") version "7.1.2" apply false
 }
@@ -54,14 +54,14 @@ subprojects {
 
             officialMojangMappings()
 
-            parchment(create(group = "org.parchmentmc.data", name = "parchment-1.20.4", version = parchmentVersion))
+            parchment(create(group = "org.parchmentmc.data", name = "parchment-1.21", version = parchmentVersion))
         })
 
-        val rlib = "modApi"(group = "com.teamresourceful.resourcefullib", name = "resourcefullib-$modLoader-$minecraftVersion", version = resourcefulLibVersion)
+        val rlib = "modApi"(group = "com.teamresourceful.resourcefullib", name = "resourcefullib-$modLoader-1.21", version = resourcefulLibVersion)
 
         "modImplementation"(group = "software.bernie.geckolib", name = "geckolib-$modLoader-$minecraftVersion", version = geckolibVersion)
         if (isCommon) {
-            "modCompileOnly"(group = "mezz.jei", name = "jei-1.20.6-common-api", version = jeiVersion)
+            "modCompileOnly"(group = "mezz.jei", name = "jei-$minecraftVersion-common-api", version = jeiVersion)
         } else {
             "include"(rlib)
         }

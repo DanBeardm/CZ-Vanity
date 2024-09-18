@@ -57,7 +57,7 @@ public class VanityForge {
         ModCreativeModeTabs.setupCreativeTab(event.getTabKey(), (after, item) -> {
             ItemStack afterStack = new ItemStack(after);
             ItemStack itemStack = new ItemStack(item);
-            event.getEntries().putAfter(afterStack, itemStack, CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(afterStack, itemStack, CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
         });
     }
 }
