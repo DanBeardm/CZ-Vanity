@@ -108,5 +108,7 @@ subprojects {
                 inputFile.set(named<ShadowJar>("shadowJar").flatMap { it.archiveFile })
             }
         }
+    } else {
+        sourceSets.main.get().resources.srcDir("src/main/generated/resources")
     }
 }

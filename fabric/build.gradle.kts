@@ -13,6 +13,10 @@ sourceSets {
         runtimeClasspath += sourceSets["main"].runtimeClasspath
         compileClasspath += sourceSets["main"].compileClasspath
     }
+    create("datagen") {
+        runtimeClasspath += sourceSets["main"].runtimeClasspath
+        compileClasspath += sourceSets["main"].compileClasspath
+    }
 }
 
 loom {
@@ -23,6 +27,18 @@ loom {
             name = "Test Client"
             source(sourceSets.getByName("test"))
             property("fabric-api.gametest")
+        }
+
+        create("datagen") {
+            client()
+            ideConfigGenerated(true)
+            name = "DataGen"
+
+            vmArg("-Dfabric-api.datagen")
+            vmArg("-Dfabric-api.datagen.output-dir=${project(":common").file("src/main/generated/resources")}")
+            vmArg("-Dfabric-api.datagen.modid=vanity-datagen")
+
+            source(sourceSets.getByName("datagen"))
         }
     }
 }

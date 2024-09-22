@@ -1,0 +1,12 @@
+{
+    "schemaVersion": 1,
+    "id": "vanity-datagen",
+    "version": "1.0.0",
+    "name": "Vanity Datagen",
+    "environment": "*",
+    "entrypoints": {
+        "fabric-datagen": [
+            "tech.thatgravyboat.vanity.datagen.VanityDatagen"
+        ]
+    }
+}

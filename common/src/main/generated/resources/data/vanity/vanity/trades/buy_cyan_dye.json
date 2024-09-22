@@ -1,0 +1,23 @@
+{
+  "chance": 1.0,
+  "first": {
+    "count": {
+      "type": "minecraft:uniform",
+      "max_inclusive": 42,
+      "min_inclusive": 16
+    },
+    "id": "minecraft:cyan_dye"
+  },
+  "group": "vanity:dyes",
+  "maxUses": {
+    "type": "minecraft:uniform",
+    "max_inclusive": 6,
+    "min_inclusive": 2
+  },
+  "priceMultiplier": 0.1,
+  "result": {
+    "count": 1,
+    "id": "minecraft:emerald"
+  },
+  "xp": 5
+}
