@@ -27,8 +27,7 @@
         "client.transforms.BlockModelAccessor",
         "client.transforms.BlockModelMixin",
         "client.transforms.ItemTransformsDeserializerMixin",
-        "client.transforms.ItemTransformsMixin",
-        "compat.geckolib.HumanoidArmorLayerMixin"
+        "client.transforms.ItemTransformsMixin"
     ],
     "injectors": {
         "defaultRequire": 1
