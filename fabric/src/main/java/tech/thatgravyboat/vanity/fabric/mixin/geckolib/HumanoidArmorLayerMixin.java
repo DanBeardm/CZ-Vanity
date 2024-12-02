@@ -1,4 +1,4 @@
-package tech.thatgravyboat.vanity.mixins.compat.geckolib;
+package tech.thatgravyboat.vanity.fabric.mixin.geckolib;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.model.HumanoidModel;
