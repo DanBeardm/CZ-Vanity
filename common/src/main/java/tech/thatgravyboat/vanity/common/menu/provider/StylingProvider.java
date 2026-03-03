@@ -11,7 +11,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import tech.thatgravyboat.vanity.api.design.DesignManager;
 import tech.thatgravyboat.vanity.common.block.StylingTableBlockEntity;
-import tech.thatgravyboat.vanity.common.handler.design.ServerDesignManager;
 import tech.thatgravyboat.vanity.common.handler.unlockables.UnlockableSaveHandler;
 import tech.thatgravyboat.vanity.common.item.DesignHelper;
 import tech.thatgravyboat.vanity.common.menu.StylingMenu;
@@ -30,10 +29,12 @@ public class StylingProvider extends BaseProvider<StylingMenuContent> {
     @Override
     public AbstractContainerMenu createMenu(int i, @NotNull Inventory inventory, @NotNull Player player) {
         if (this.entity.getLevel() == null) return null;
+
         return new StylingMenu(
-                i, inventory,
+                i,
+                inventory,
                 ContainerLevelAccess.create(this.entity.getLevel(), this.entity.getBlockPos()),
-                ServerDesignManager.INSTANCE, getDesignsForPlayer(player)
+                DesignManager.get(true)
         );
     }
 

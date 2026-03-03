@@ -24,7 +24,7 @@ public class ModCreativeModeTabs {
 
     public static final RegistryEntry<CreativeModeTab> DESIGN_TAB = TABS.register("designs",
             () -> new ResourcefulCreativeModeTab(Vanity.id("designs"))
-                    .setItemIcon(ModBlocks.STYLING_TABLE)
+                    .setItemIcon(ModItems.DESIGN)
                     .addContent(() -> {
                         DesignManager manager = DesignManager.get(true);
                         return manager.getAllDesigns()
