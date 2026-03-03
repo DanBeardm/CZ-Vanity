@@ -1,6 +1,0 @@
-{
-    "parent": "vanity:item/handheld_item",
-    "textures": {
-        "layer0": "example:item/sword"
-    }
-}
