@@ -6,9 +6,12 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.ItemLore;
 import org.jetbrains.annotations.Nullable;
 import tech.thatgravyboat.vanity.api.design.Design;
 import tech.thatgravyboat.vanity.common.registries.ModDataComponents;
+
+import java.util.List;
 
 public class DesignHelper {
 
@@ -28,6 +31,11 @@ public class DesignHelper {
         ItemStack stack = design.item().copyWithCount(1);
         stack.set(ModDataComponents.DESIGN.get(), id);
         stack.set(DataComponents.ITEM_NAME, DesignHelper.getTranslationKey(id, null));
+
+        // Static description: design.<ns>.<path>.desc
+        String descKey = id.toLanguageKey("design") + ".desc";
+        stack.set(DataComponents.LORE, new ItemLore(List.of(Component.translatable(descKey))));
+
         return stack;
     }
 
